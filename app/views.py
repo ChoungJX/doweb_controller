@@ -23,5 +23,6 @@ route_api = {
     "docker_rm" : apis.del_container,
     "docker_run" : apis.create_container,
     "docker_commit" : apis.commit_image,
+    "docker_network": apis.network_option,
 }
 

@@ -154,3 +154,37 @@ def commit_image(request):
             "message":get_thr.stdout.read().decode().strip()
         }
     )
+
+def network_option(request):
+
+    get_args = request.json.get("args")
+    
+    if get_args.get('option') == "ls":
+        get_thr = command.docker_network(get_args)
+        get_thr.wait()
+
+        return_json = {
+            'network': list(),
+        }
+
+        get_out = get_thr.stdout.readlines()
+        get_out = get_out[1:]
+        for i in get_out:
+            one_network_list = list()
+            one_data = i.decode()
+            one_data = one_data.split("  ")
+            for j in one_data:
+                if j:
+                    one_network_list.append(j.strip())
+            
+            get_thr2 = command.docker_inspect(one_network_list[0])
+            get_thr2.wait()
+            one_image_info = json.loads(get_thr2.stdout.read())
+            
+            return_json["network"].append(one_image_info[0])
+        
+        return_json["status"] = get_thr.poll()
+        return jsonify(return_json)
+
+    else:
+        return jsonify({"status":-1})

@@ -94,7 +94,23 @@ def docker_commit(args_dict:dict)->subprocess.Popen:
     get_thr = send_message(elementary_command)
     return get_thr
 
+def docker_network(args_dict:dict)->subprocess.Popen:
+    elementary_command = "docker network"
+
+    get_args = args_dict.get('args')
+
+    if get_args == "create":
+        pass
+    else:
+        elementary_command = "%s ls"%(elementary_command)
+    
+    get_thr = send_message(elementary_command)
+    return get_thr
+
 
 if __name__ == "__main__":
     #docker_run({"image":"aaa","args":"/bin/bash","ports":[[443,443],[80,80],[22,22]],"name":"test","restart":"always","communicate":"23423"})
-    docker_inspect("sadfaf242r23")
+    #docker_inspect("sadfaf242r23")
+    #aaa = docker_network({})
+    #import pdb; pdb.set_trace()
+    pass
