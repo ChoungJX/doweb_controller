@@ -1,5 +1,5 @@
 import subprocess
-
+import json
 
 def send_message(cm: str) -> subprocess.Popen:
     thr = subprocess.Popen(
@@ -17,13 +17,14 @@ def use_docker_sock(args_dict: dict) -> subprocess.Popen:
     else:
         pass
     if args_dict.get('data'):
-        elementary_command = "%s -H 'Content-Type: application/json' -X POST  --data '%s'" % (
-            elementary_command, str(args_dict.get('data'))
+        elementary_command = '%s -H \"Content-Type: application/json\" -X POST  --data \'%s\'' % (
+            elementary_command, json.dumps(args_dict.get('data'))
         )
 
     elementary_command = "%s --unix-socket /var/run/docker.sock http://localhost%s" % (
         elementary_command, args_dict['url']
     )
+    elementary_command = '"'.join(elementary_command.split("'"))
     print(elementary_command)
     get_thr = send_message(elementary_command)
     return get_thr
