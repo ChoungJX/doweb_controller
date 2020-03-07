@@ -13,21 +13,24 @@ def check_status(request):
     return jsonify(
         {
             "status": get_thr.poll(),
-            "data": json.loads(get_thr.stdout.read())
         }
     )
 
 
 def docker_socks(request):
-
-    get_args = request.json.get("args")
-    get_thr = command.use_docker_sock(get_args)
+    get_thr = command.use_docker_sock(request.json)
     get_thr.wait()
+
+    try:
+        output = get_thr.stdout.read()
+        data = json.loads(output)
+    except:
+        data = output 
 
     return jsonify(
         {
             'status': get_thr.poll(),
-            'data': get_thr
+            'data': data,
         }
     )
 

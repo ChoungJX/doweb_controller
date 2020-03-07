@@ -7,9 +7,24 @@ def send_message(cm: str) -> subprocess.Popen:
     return thr
 
 
-def use_docker_sock(args: str) -> subprocess.Popen:
-    elementary_command = "curl -s --unix-socket /var/run/docker.sock http://localhost" % (
-        args)
+def use_docker_sock(args_dict: dict) -> subprocess.Popen:
+    elementary_command = "curl -s"
+
+    if args_dict['method'] != "GET":
+        elementary_command = "%s -X %s" % (
+            elementary_command, args_dict['method']
+        )
+    else:
+        pass
+    if args_dict.get('data'):
+        elementary_command = "%s -H 'Content-Type: application/json' -X POST  --data '%s'" % (
+            elementary_command, str(args_dict.get('data'))
+        )
+
+    elementary_command = "%s --unix-socket /var/run/docker.sock http://localhost%s" % (
+        elementary_command, args_dict['url']
+    )
+    print(elementary_command)
     get_thr = send_message(elementary_command)
     return get_thr
 
