@@ -22,7 +22,7 @@ def docker_socks(request):
     get_thr.wait()
 
     try:
-        output = get_thr.stdout.read()
+        output = get_thr.stdout.read().decode()
         data = json.loads(output)
     except:
         data = output 
