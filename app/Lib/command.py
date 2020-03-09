@@ -36,6 +36,7 @@ def use_docker_sock(args_dict: dict) -> subprocess.Popen:
     elementary_command.append("/var/run/docker.sock")
     elementary_command.append("http://localhost%s"%(args_dict['url']))
     elementary_command=" ".join(elementary_command)
+    print(elementary_command)
     get_thr = send_message(elementary_command)
     return get_thr
 
