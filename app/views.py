@@ -1,4 +1,4 @@
-from app import app
+from app import app, sql
 from flask import url_for, request, redirect, render_template, jsonify, current_app, make_response
 
 
@@ -7,10 +7,52 @@ from . import apis
 
 def certificate(request):
     psw = request.json.get('psw')
-    if psw != "tttest":
+    get_c_id = sql.get_certification()
+    if psw != get_c_id:
         return False
     else:
         return True
+
+
+@app.route('/server/bind', methods=['POST'])
+def bind_server():
+    get_remote_c_id = request.json.get("psw")
+    get_c_id = sql.get_certification()
+    if get_c_id:
+        return jsonify(
+            {
+                "status": -1,
+                "message": "this server has binded"
+            }
+        )
+    else:
+        sql.create_certification(get_remote_c_id)
+        return jsonify(
+            {
+                "status": 0,
+                "message": "success"
+            }
+        )
+
+
+@app.route('/server/delete', methods=['POST'])
+def delete_server():
+    if certificate(request):
+        sql.delete_certification()
+        return jsonify(
+            {
+                "status": 0,
+                "message": "success"
+            }
+        )
+    else:
+        return jsonify(
+            {
+                "status": -1,
+                "message": "certification wrong"
+            }
+        )
+
 
 @app.route('/server/api', methods=['POST'])
 def api():
