@@ -16,6 +16,7 @@ def certificate(request):
 
 @app.route('/server/bind', methods=['POST'])
 def bind_server():
+    print(request.json)
     get_remote_c_id = request.json.get("psw")
     get_c_id = sql.get_certification()
     if get_c_id:
@@ -37,6 +38,7 @@ def bind_server():
 
 @app.route('/server/delete', methods=['POST'])
 def delete_server():
+    print(request.json)
     if certificate(request):
         sql.delete_certification()
         return jsonify(
@@ -56,6 +58,7 @@ def delete_server():
 
 @app.route('/server/api', methods=['POST'])
 def api():
+    print(request.json)
     if not certificate(request):
         return jsonify({"ststus": -1, "message": "no certificate"})
 
