@@ -71,6 +71,9 @@ def api():
 
 route_api = {
     "docker_socks": apis.docker_socks,
+    "check_server_status": apis.check_server_status,
+
+
     "check_status": apis.check_status,
     "docker_images": apis.send_docker_images_info,
     "docker_ps": apis.send_docker_ps_info,
