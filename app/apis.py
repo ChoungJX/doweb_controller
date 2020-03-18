@@ -56,8 +56,8 @@ def check_server_status(request):
             'free': float(mem_swap.free) / 1024 / 1024 / 1024
         },
         'network': {
-            'receive': float(net.bytes_recv)/1024/1024,
-            'send': float(net.bytes_sent)/1024/1024,
+            'receive': float(net.bytes_recv),
+            'send': float(net.bytes_sent),
         },
     }
 
