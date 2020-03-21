@@ -1,4 +1,5 @@
 import json
+import time
 
 from flask import jsonify, request
 import psutil
@@ -58,6 +59,7 @@ def check_server_status(request):
         'network': {
             'receive': float(net.bytes_recv),
             'send': float(net.bytes_sent),
+            "time": time.time(),
         },
     }
 
