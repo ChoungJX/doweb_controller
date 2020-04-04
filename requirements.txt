@@ -1,2 +1,4 @@
-flask==1.0.3
-
+flask
+flask_login
+flask_sqlalchemy
+psutil
