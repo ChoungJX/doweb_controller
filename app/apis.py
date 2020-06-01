@@ -246,3 +246,19 @@ def network_option(request):
 
     else:
         return jsonify({"status": -1})
+
+
+def docker_get_logs(request):
+    get_args = request.json.get("args")
+    if get_args:
+        get_thr = command.docker_logs(get_args)
+    else:
+        return jsonify({"status": -1})
+
+    get_thr.wait()
+    return jsonify(
+        {
+            "status": get_thr.poll(),
+            "message": get_thr.stdout.read().decode().strip()
+        }
+    )

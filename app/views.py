@@ -83,4 +83,5 @@ route_api = {
     "docker_run": apis.create_container,
     "docker_commit": apis.commit_image,
     "docker_network": apis.network_option,
+    "docker_logs": apis.docker_get_logs,
 }

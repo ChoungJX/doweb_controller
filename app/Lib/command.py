@@ -2,6 +2,7 @@ import subprocess
 import json
 import os
 
+
 def send_message(cm) -> subprocess.Popen:
     thr = subprocess.Popen(
         cm, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -10,7 +11,7 @@ def send_message(cm) -> subprocess.Popen:
 
 def use_docker_sock(args_dict: dict) -> subprocess.Popen:
     #elementary_command = "curl -s"
-    elementary_command = ["curl","-s"]
+    elementary_command = ["curl", "-s"]
 
     if args_dict['method'] != "GET":
         # elementary_command = "%s -X %s" % (
@@ -34,8 +35,8 @@ def use_docker_sock(args_dict: dict) -> subprocess.Popen:
     # )
     elementary_command.append("--unix-socket")
     elementary_command.append("/var/run/docker.sock")
-    elementary_command.append("http://localhost%s"%(args_dict['url']))
-    elementary_command=" ".join(elementary_command)
+    elementary_command.append("http://localhost%s" % (args_dict['url']))
+    elementary_command = " ".join(elementary_command)
     print(elementary_command)
     get_thr = send_message(elementary_command)
     return get_thr
@@ -146,6 +147,13 @@ def docker_network(args_dict: dict) -> subprocess.Popen:
         pass
     else:
         elementary_command = "%s ls" % (elementary_command)
+
+    get_thr = send_message(elementary_command)
+    return get_thr
+
+
+def docker_logs(args_dict: dict) -> subprocess.Popen:
+    elementary_command = "docker logs -t %s & exit" % (args_dict.get("container_id"))
 
     get_thr = send_message(elementary_command)
     return get_thr
