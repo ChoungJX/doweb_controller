@@ -75,13 +75,6 @@ route_api = {
 
 
     "check_status": apis.check_status,
-    "docker_images": apis.send_docker_images_info,
-    "docker_ps": apis.send_docker_ps_info,
-    "docker_pull": apis.pull_new_images,
-    "docker_rmi": apis.del_images,
-    "docker_rm": apis.del_container,
-    "docker_run": apis.create_container,
-    "docker_commit": apis.commit_image,
-    "docker_network": apis.network_option,
+
     "docker_logs": apis.docker_get_logs,
 }
